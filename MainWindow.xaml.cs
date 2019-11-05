@@ -29,18 +29,6 @@ namespace AverageLyrics
             ArtistName.Text = Globals.DefaultArtistText;
             ArtistName.Focus();
         }
-        
-        private async void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string searchArtistName = ArtistName.Text;
-                await MusicBrainzLookup.LookupArtist(searchArtistName);
-                ArtistDataGrid.ItemsSource = null;
-                ArtistDataGrid.ItemsSource = Globals.MatchingArtists;
-            }
-            catch (Exception exp) { MessageBox.Show("Error searching for artists: " + exp.Message); }
-        }
 
         private void ArtistName_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -49,5 +37,37 @@ namespace AverageLyrics
                 ArtistName.SelectAll();
             }
         }
+
+        private async void ArtistSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string _searchArtistName = ArtistName.Text;
+                await MusicBrainzLookup.LookupArtist(_searchArtistName);
+                ArtistDataGrid.ItemsSource = null;
+                ArtistDataGrid.ItemsSource = Globals.MatchingArtists;
+                if (Globals.MatchingArtists.Count > 0) { ArtistDataGrid.SelectedIndex = 0; }
+            }
+            catch (Exception exp) { MessageBox.Show("Error searching for artists: " + exp.Message); }
+        }
+
+        private void ArtistDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Globals.SelectedArtist = ArtistDataGrid.SelectedItem as ArtistItem;
+        }
+
+        private async void SongSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Globals.SelectedArtist != null)
+            {
+                await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist.Name);
+            }
+            else
+            {
+                MessageBox.Show("Please select an artist record in the table.");
+            }            
+            
+        }
+
     }
 }

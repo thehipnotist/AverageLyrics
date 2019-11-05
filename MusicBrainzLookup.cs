@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Hqub.MusicBrainz.API;
 using Hqub.MusicBrainz.API.Entities;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,7 +45,34 @@ namespace AverageLyrics
                     MessageBox.Show("Could not find artist " + enteredName);
                 }
             }
-            catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ":" + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ": " + exp.Message); }
+        }
+
+        public static async Task LookupSongs(string artistName)
+        {
+            try
+            {
+                var _songQuery = new QueryParameters<Recording>()
+                {
+//                    { "arid", artistId },
+                    { "artist", artistName } //,
+//                    { "release", "" },
+//                    { "recording", "" }
+                };
+                var _foundSongs = await Recording.SearchAsync(_songQuery);
+                if (_foundSongs != null && _foundSongs.Items.Count > 0)
+                {
+                    foreach (var song in _foundSongs.Items)
+                    {
+                        MessageBox.Show(song.Title);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Could not find songs for artist " + artistName);
+                }
+            }
+            catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artistName + ": " + exp.Message); }
         }
 
     }
