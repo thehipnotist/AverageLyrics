@@ -15,7 +15,7 @@ namespace AverageLyrics
         {
             try
             {
-                Globals.MatchingArtists.Clear();
+                MatchingArtists.Clear();
                 
                 if (enteredName == "" || enteredName == DefaultArtistText)
                 {
@@ -42,37 +42,56 @@ namespace AverageLyrics
                 }
                 else
                 {
-                    MessageBox.Show("Could not find artist " + enteredName);
+                    MessageBox.Show("Could not find an artist called '" + enteredName + "'.");
                 }
             }
             catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ": " + exp.Message); }
         }
 
-        public static async Task LookupSongs(string artistName)
+        public static async Task LookupSongs(ArtistItem artist)
         {
             try
             {
-                var _songQuery = new QueryParameters<Recording>()
-                {
-//                    { "arid", artistId },
-                    { "artist", artistName } //,
-//                    { "release", "" },
-//                    { "recording", "" }
-                };
+                MatchingSongs.Clear();
+                
+                var _songQuery = new QueryParameters<Recording>() { { "arid", artist.Id } };
                 var _foundSongs = await Recording.SearchAsync(_songQuery);
-                if (_foundSongs != null && _foundSongs.Items.Count > 0)
+                if (_foundSongs != null && _foundSongs.Items != null && _foundSongs.Items.Count > 0)
                 {
-                    foreach (var song in _foundSongs.Items)
+                    foreach (var s in _foundSongs.Items)
                     {
-                        MessageBox.Show(song.Title);
+                        //MessageBox.Show(s.Title);
+                        var _recording = await Recording.GetAsync(s.Id, "work-rels");
+                        if (_recording == null || _recording.Relations == null || _recording.Relations.Count == 0) { continue; }
+
+                        foreach (var rl in _recording.Relations)
+                        {
+                            var _work = rl.Work;
+                            //if (_work == null) { continue; }
+                            //var _lyrics = _work.Relations.Where(r => r.Type == "lyrics");
+                            //if (_lyrics != null && _lyrics.Count() > 0)
+                            //{
+                            //    var _song = new RecordingItem
+                            //    {
+                            //        Id = _work.Id,
+                            //        Title = _work.Title,
+                            //        LyricCount = _lyrics.Count()
+                            //        //,
+                            //        //FirstRelease = _work.Releases.OrderByDescending(r => r.Score).Select(r => r.Title).FirstOrDefault(),
+                            //        //Seconds = _work.Length
+                            //        //Score = s.Score
+                            //    };
+                            //    Globals.MatchingSongs.Add(_song);
+                            //}
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Could not find songs for artist " + artistName);
+                    MessageBox.Show("Could not find any songs for artist '" + artist.Name + "'.");
                 }
             }
-            catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artistName + ": " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message); }
         }
 
     }

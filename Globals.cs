@@ -11,5 +11,6 @@ namespace AverageLyrics
         public static string DefaultArtistText = "Enter Artist Name";
         public static List<ArtistItem> MatchingArtists = new List<ArtistItem>();
         public static ArtistItem SelectedArtist = null;
+        public static List<RecordingItem> MatchingSongs = new List<RecordingItem>();
     }
 }

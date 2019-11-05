@@ -42,9 +42,8 @@ namespace AverageLyrics
         {
             try
             {
-                string _searchArtistName = ArtistName.Text;
-                await MusicBrainzLookup.LookupArtist(_searchArtistName);
                 ArtistDataGrid.ItemsSource = null;
+                await MusicBrainzLookup.LookupArtist(ArtistName.Text);                
                 ArtistDataGrid.ItemsSource = Globals.MatchingArtists;
                 if (Globals.MatchingArtists.Count > 0) { ArtistDataGrid.SelectedIndex = 0; }
             }
@@ -58,15 +57,21 @@ namespace AverageLyrics
 
         private async void SongSearchButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Globals.SelectedArtist != null)
+            try
             {
-                await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist.Name);
+                if (Globals.SelectedArtist != null)
+                {
+                    //SongDataGrid.ItemsSource = null;
+                    await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist);
+                    //SongDataGrid.ItemsSource = Globals.MatchingSongs;
+                    //SongDataGrid.SelectAll();
+                }
+                else
+                {
+                    MessageBox.Show("Please select an artist record in the table.");
+                }
             }
-            else
-            {
-                MessageBox.Show("Please select an artist record in the table.");
-            }            
-            
+            catch (Exception exp) { MessageBox.Show("Error searching for songs: " + exp.Message); }
         }
 
     }
