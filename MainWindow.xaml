@@ -29,7 +29,7 @@
         </TextBlock>
 
         <DataGrid x:Name="ArtistDataGrid" HorizontalAlignment="Left" Height="175" Margin="30,160,0,0" VerticalAlignment="Top" Width="470" IsReadOnly="True" AutoGenerateColumns="False" 
-                  SelectionChanged="ArtistDataGrid_SelectionChanged" SelectionMode="Single">
+                  SelectionChanged="ArtistDataGrid_SelectionChanged" SelectionMode="Single" BorderBrush="{DynamicResource BrushButton2}">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="ArtistNameColumn" Binding="{Binding Path=Name}" Header="Artist Name" Width="*" MinWidth="150"/>
                 <DataGridTextColumn x:Name="ArtistTypeColumn" Binding="{Binding Path=Type}" Header="Artist Type"/>
@@ -40,21 +40,22 @@
         <Button x:Name="SongSearchButton" Content="Search Songs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,160,0,0" Height="30" Click="SongSearchButton_Click"
                 Style="{DynamicResource RoundedButton}"/>
 
-        <TextBlock x:Name="WaitInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
-            <TextBlock.Inlines>
-                Please wait whilst the results are retrieved...
-            </TextBlock.Inlines>
+        <TextBlock x:Name="WaitInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow"
+                   Foreground="{DynamicResource BrushButton2}">
+                Please wait whilst the results are retrieved, this may take a few minutes...
         </TextBlock>
 
         <TextBlock x:Name="ThirdInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
-                <TextBlock x:Name="AverageResultBlock"></TextBlock>
+                The average number of words in the selected songs is
+                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/>.
                 <LineBreak/>
-                To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the radio options. 
+                To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the 'quick select' options.
             </TextBlock.Inlines>
         </TextBlock>
 
-        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="240" Margin="30,400,0,0" VerticalAlignment="Top" Width="470" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="240" Margin="30,400,0,0" VerticalAlignment="Top" Width="470" IsReadOnly="True" AutoGenerateColumns="False"
+                   BorderBrush="{DynamicResource BrushButton2}" SelectionChanged="SongDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SongNameColumn" Binding="{Binding Path=Title}" Header="Song Title" Width="*" MinWidth="150"/>
                 <!-- <DataGridTextColumn x:Name="SongReleaseColumn" Binding="{Binding Path=FirstRelease}" Header="First Release"/>
@@ -62,7 +63,16 @@
                 <DataGridTextColumn x:Name="LyricsColumn" Binding="{Binding Path=LyricCount}" Header="Lyric Count"/>
             </DataGrid.Columns>
         </DataGrid>
-
+        <Button x:Name="RecalculateButton" Content="Recalculate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,400,0,0" Height="30" Click="RecalculateButton_Click"
+                Style="{DynamicResource RoundedButton}"/>
+        <GroupBox x:Name="SelectGroup" Header="Quick Select" HorizontalAlignment="Left" Height="100" Margin="550,450,0,0" VerticalAlignment="Top" Width="90" BorderBrush="{DynamicResource BrushButton2}"
+                   Foreground="{DynamicResource BrushButton2}" HorizontalContentAlignment="Right" Padding="3,5,0,0">
+            <StackPanel Margin="0,5,0,0">
+                <RadioButton x:Name="SelectAll" Content="All" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectAll_Checked"/>
+                <RadioButton x:Name="SelectPositive" Content="Non-Zero" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectPositive_Checked"/>
+                <RadioButton x:Name="SelectNone" Content="None" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectNone_Checked"/>
+            </StackPanel>
+        </GroupBox>
 
     </Grid>
 </Window>

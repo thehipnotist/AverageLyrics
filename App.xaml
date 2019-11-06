@@ -8,10 +8,15 @@
     <Application.Resources>
 
         <!-- Colours -->
+        <Color x:Key="ColorButton1" R="51"  G="51" B="255"  A="255"/>
+        <SolidColorBrush x:Key="BrushButton1" Color="{StaticResource ColorButton1}"/>
+        <Color x:Key="ColorButton2" R="102"  G="102" B="255"  A="255"/>
+        <SolidColorBrush x:Key="BrushButton2" Color="{StaticResource ColorButton2}"/>
+
         <RadialGradientBrush x:Key="PtGradientButton">
             <RadialGradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="#FF3333FF" Offset="0"/>
+                    <GradientStop Color="{StaticResource ColorButton1}" Offset="0"/>
                     <GradientStop Color="#FF6666FF" Offset="1"/>
                 </GradientStopCollection>
             </RadialGradientBrush.GradientStops>

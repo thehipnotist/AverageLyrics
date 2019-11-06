@@ -19,6 +19,8 @@ namespace AverageLyrics
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool radioSelected = false;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -46,8 +48,7 @@ namespace AverageLyrics
 
         private void toggleSongControls(bool show)
         {
-            SongDataGrid.Visibility = show ? Visibility.Visible : Visibility.Hidden;
-            ThirdInstructions.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+            SongDataGrid.Visibility = ThirdInstructions.Visibility = RecalculateButton.Visibility = SelectGroup.Visibility = show ? Visibility.Visible : Visibility.Hidden;            
         }
 
         private void populateTypeCombo()
@@ -120,13 +121,14 @@ namespace AverageLyrics
                     await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist);
                     SongDataGrid.ItemsSource = Globals.MatchingSongs;
                     toggleSongControls(true);
-                    SongDataGrid.SelectAll();
+                    SelectAll.IsChecked = true;
                     showAverage();
                     toggleWait(false);
                 }
                 else
                 {
                     MessageBox.Show("Please select an artist record in the upper table.");
+                    ArtistDataGrid.Focus();
                 }
             }
             catch (Exception exp) { MessageBox.Show("Error searching for songs: " + exp.Message); }
@@ -154,8 +156,56 @@ namespace AverageLyrics
                     if (_thisSong != null) { Globals.SelectedSongs.Add(_thisSong); }
                 }
                 double _average = Globals.LyricAverage();
-                //MessageBox.Show("The average number of words in the selected songs is " + _average);
-                AverageResultBlock.Text = "The average number of words in the selected songs is " + _average + ".";
+                AverageResultBlock.Text = String.Format("{0:0.##}", _average);
+            }
+        }
+
+        private void RecalculateButton_Click(object sender, RoutedEventArgs e)
+        {
+            showAverage();
+        }
+
+        private void toggleRadioSelection(bool selected)
+        {
+            radioSelected = selected;
+            if (selected) { SongDataGrid.Focus(); }
+        }
+
+        private void SelectAll_Checked(object sender, RoutedEventArgs e)
+        {
+            toggleRadioSelection(false);
+            SongDataGrid.SelectAll();
+            toggleRadioSelection(true);
+        }
+
+        private void SelectPositive_Checked(object sender, RoutedEventArgs e)
+        {
+            toggleRadioSelection(false);
+            SongDataGrid.SelectedItem = null;
+            foreach (var dataLine in SongDataGrid.Items)
+            {
+                SongItem _thisSong = dataLine as SongItem;
+                if (_thisSong != null && _thisSong.LyricCount > 0) 
+                { 
+                    SongDataGrid.SelectedItems.Add(dataLine); 
+                } 
+            }
+            toggleRadioSelection(true);
+        }
+
+        private void SelectNone_Checked(object sender, RoutedEventArgs e)
+        {
+            toggleRadioSelection(false);
+            SongDataGrid.SelectedItem = null;
+            toggleRadioSelection(true);
+        }
+
+        private void SongDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (radioSelected)
+            {
+                SelectAll.IsChecked = SelectNone.IsChecked = SelectPositive.IsChecked = false;
+                radioSelected = false;
             }
         }
 
