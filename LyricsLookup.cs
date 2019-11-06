@@ -20,19 +20,11 @@ namespace AverageLyrics
                 using (var _response = await httpClient.GetAsync(artistName + "/" + songName))
                 {
                     string _responseData = await _response.Content.ReadAsStringAsync();
-                    string _lyrics = _responseData.ToLower();
-                    _lyrics = _lyrics
-                        .Replace("{", "")
-                            .Replace("}", "")
-                                .Replace("\"lyrics\":", "")
-                                    .Replace("\"", "")
-                                        .Replace("\'", "")
-                                            .Replace("\\n", " ")
-                                                .Replace("  "," ");
-                    
+                    string _lyrics = FormatLyrics(_responseData);
                     TheseLyrics = _lyrics;
-                    int _countWords = _lyrics.Count();
+                    int _countWords = _lyrics.Count(l => l == ' ') + 1;
                     MessageBox.Show(_countWords.ToString());
+                    Clipboard.SetText(_lyrics);
                 }
             }
 

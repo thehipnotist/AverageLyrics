@@ -14,5 +14,19 @@ namespace AverageLyrics
         public static List<RecordingItem> MatchingSongs = new List<RecordingItem>();
 
         public static Dictionary<string, int> LyricCount = new Dictionary<string, int>();
+
+        public static string FormatLyrics(string rawLyrics)
+        {
+            string _formattedLyrics = rawLyrics.ToLower().Trim();
+            _formattedLyrics = _formattedLyrics
+                .Replace("{", "")
+                    .Replace("}", "")
+                        .Replace("\"lyrics\":", "")
+                            .Replace("\"", "")
+                                .Replace("\'", "")
+                                    .Replace("\\n", " ")
+                                        .Replace("  ", " ");
+            return _formattedLyrics;
+        }
     }
 }
