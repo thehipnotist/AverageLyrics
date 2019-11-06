@@ -33,12 +33,6 @@ namespace AverageLyrics
             try
             {
                 MatchingArtists.Clear();
-                
-                if (enteredName == "" || enteredName == DefaultArtistText)
-                {
-                    MessageBox.Show("Please enter an artist's name in the search box.");
-                    return;
-                }
 
                 var _artistQuery = new QueryParameters<Artist>()
                 {
@@ -58,7 +52,7 @@ namespace AverageLyrics
                             Score = a.Score,
                             Id = a.Id,
                             Name = a.Name,
-                            Country = a.Country,
+                            Country = (a.Country != null && a.Country.Trim() != "")? a.Country : "Various/Unknown",
                             Type = a.Type
                         };
                         MatchingArtists.Add(_artist);

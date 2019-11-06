@@ -4,16 +4,16 @@
         Title="Average Lyrics" Height="700" Width="700" Loaded="Window_Loaded">
     <Grid>
         <TextBlock x:Name="FirstInstructions" Height="45" Margin="30,20,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
-            <TextBlock.Inlines>            
-                This tool gives the average number of words in an artist's songs. 
+            <TextBlock.Inlines>
+                This tool gives the average number of words in an artist's songs.
                 <LineBreak/>
                 To get started, enter an artist's name in the box, and if desired select a type to filter on. Then click 'Search Artists'.
             </TextBlock.Inlines>
         </TextBlock>
-        
+
         <Label x:Name="ArtistLabel" Content="Artist Name" HorizontalAlignment="Left" Height="30" Margin="30,70,0,0" VerticalAlignment="Top" Width="80"/>
         <TextBox x:Name="ArtistName" HorizontalAlignment="Left" Height="30" Margin="105,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" GotFocus="ArtistName_GotFocus"
-                 Style="{DynamicResource RoundedTextBox}"/>
+                 Style="{DynamicResource RoundedTextBox}" CharacterCasing="Upper"/>
         <Label x:Name="TypeLabel" Content="Artist Type" HorizontalAlignment="Left" Height="30" Margin="320,70,0,0" VerticalAlignment="Top" Width="70"/>
         <ComboBox x:Name="TypeCombo" HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110" Style="{DynamicResource RoundedCombo}" SelectionChanged="TypeCombo_SelectionChanged"
                   />
@@ -22,32 +22,46 @@
 
         <TextBlock x:Name="SecondInstructions" Height="45" Margin="30,110,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
-                The first ten matches are displayed below, with the best match selected. If that is the correct artist, click 'Search Songs'. 
+                The first ten matches are displayed below, with the best match selected. If that is the correct artist, click 'Search Songs'.
                 <LineBreak/>
                 If not, select another record below, or if it is not listed, try changing the search string and/or type above.
             </TextBlock.Inlines>
         </TextBlock>
 
-        <DataGrid x:Name="ArtistDataGrid" HorizontalAlignment="Left" Height="175" Margin="80,160,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False" 
-                  SelectionChanged="ArtistDataGrid_SelectionChanged">
+        <DataGrid x:Name="ArtistDataGrid" HorizontalAlignment="Left" Height="175" Margin="30,160,0,0" VerticalAlignment="Top" Width="470" IsReadOnly="True" AutoGenerateColumns="False" 
+                  SelectionChanged="ArtistDataGrid_SelectionChanged" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="ArtistNameColumn" Binding="{Binding Path=Name}" Header="Artist Name" Width="*" MinWidth="150"/>
                 <DataGridTextColumn x:Name="ArtistTypeColumn" Binding="{Binding Path=Type}" Header="Artist Type"/>
-                <DataGridTextColumn x:Name="ArtistCountryColumn" Binding="{Binding Path=Type}" Header="Country"/>
-                <DataGridTextColumn x:Name="ArtistScoreColumn" Binding="{Binding Path=Type}" Header="Search Score"/>
+                <DataGridTextColumn x:Name="ArtistCountryColumn" Binding="{Binding Path=Country}" Header="Country"/>
+                <DataGridTextColumn x:Name="ArtistScoreColumn" Binding="{Binding Path=Score}" Header="Search Score"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="SongSearchButton" Content="Search Songs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,160,0,0" Height="30" Click="SongSearchButton_Click"
                 Style="{DynamicResource RoundedButton}"/>
 
-        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="288" Margin="80,350,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False">
+        <TextBlock x:Name="WaitInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
+            <TextBlock.Inlines>
+                Please wait whilst the results are retrieved...
+            </TextBlock.Inlines>
+        </TextBlock>
+
+        <TextBlock x:Name="ThirdInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
+            <TextBlock.Inlines>
+                <TextBlock x:Name="AverageResultBlock"></TextBlock>
+                <LineBreak/>
+                To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the radio options. 
+            </TextBlock.Inlines>
+        </TextBlock>
+
+        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="240" Margin="30,400,0,0" VerticalAlignment="Top" Width="470" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SongNameColumn" Binding="{Binding Path=Title}" Header="Song Title" Width="*" MinWidth="150"/>
                 <!-- <DataGridTextColumn x:Name="SongReleaseColumn" Binding="{Binding Path=FirstRelease}" Header="First Release"/>
                 <DataGridTextColumn x:Name="SongLengthColumn" Binding="{Binding Path=Seconds}" Header="Length"/>   -->
                 <DataGridTextColumn x:Name="LyricsColumn" Binding="{Binding Path=LyricCount}" Header="Lyric Count"/>
             </DataGrid.Columns>
-        </DataGrid>        
+        </DataGrid>
 
 
     </Grid>
