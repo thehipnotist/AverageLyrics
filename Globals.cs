@@ -11,8 +11,8 @@ namespace AverageLyrics
         public static string DefaultArtistText = "Enter Artist Name";
         public static List<ArtistItem> MatchingArtists = new List<ArtistItem>();
         public static ArtistItem SelectedArtist = null;
-        public static List<RecordingItem> MatchingSongs = new List<RecordingItem>();
-
+        public static List<SongItem> MatchingSongs = new List<SongItem>();
+        public static List<SongItem> SelectedSongs = new List<SongItem>();
         public static Dictionary<string, int> LyricCount = new Dictionary<string, int>();
 
         public static string FormatLyrics(string rawLyrics)
@@ -28,5 +28,12 @@ namespace AverageLyrics
                                         .Replace("  ", " ");
             return _formattedLyrics;
         }
+
+        public static double LyricAverage()
+        {
+            if (SelectedSongs == null || SelectedSongs.Count == 0) { return 0; }
+            else { return SelectedSongs.Average(ss => ss.LyricCount); }
+        }
+
     }
 }

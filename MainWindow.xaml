@@ -5,20 +5,29 @@
     <Grid>
         <TextBlock x:Name="FirstInstructions" Height="45" Margin="30,20,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>            
-                This tool gives the average number of words in an artist's sonsg. 
+                This tool gives the average number of words in an artist's songs. 
                 <LineBreak/>
-                Enter an Artist's name in the box, and if desired select a Type to filter on. Then click 'Search Artists'.
+                To get started, enter an artist's name in the box, and if desired select a type to filter on. Then click 'Search Artists'.
             </TextBlock.Inlines>
         </TextBlock>
+        
         <Label x:Name="ArtistLabel" Content="Artist Name" HorizontalAlignment="Left" Height="30" Margin="30,70,0,0" VerticalAlignment="Top" Width="80"/>
         <TextBox x:Name="ArtistName" HorizontalAlignment="Left" Height="30" Margin="105,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" GotFocus="ArtistName_GotFocus"
                  Style="{DynamicResource RoundedTextBox}"/>
         <Label x:Name="TypeLabel" Content="Artist Type" HorizontalAlignment="Left" Height="30" Margin="320,70,0,0" VerticalAlignment="Top" Width="70"/>
-        <ComboBox HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110"/>
+        <ComboBox HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110" Style="{DynamicResource RoundedCombo}"/>
         <Button x:Name="ArtistSearchButton" Content="Search Artists" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,70,0,0" Height="30" Click="ArtistSearchButton_Click"
-                Style="{DynamicResource RoundedButton}"/>        
-        
-        <DataGrid x:Name="ArtistDataGrid" HorizontalAlignment="Left" Height="175" Margin="80,98,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False" 
+                Style="{DynamicResource RoundedButton}"/>
+
+        <TextBlock x:Name="SecondInstructions" Height="45" Margin="30,110,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
+            <TextBlock.Inlines>
+                The first ten matches are displayed below, with the best match selected. If that is the correct artist, click 'Search Songs'. 
+                <LineBreak/>
+                If not, select another record below, or if it is not listed, try changing the search string and/or type above.
+            </TextBlock.Inlines>
+        </TextBlock>
+
+        <DataGrid x:Name="ArtistDataGrid" HorizontalAlignment="Left" Height="175" Margin="80,160,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False" 
                   SelectionChanged="ArtistDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="ArtistNameColumn" Binding="{Binding Path=Name}" Header="Artist Name" Width="*" MinWidth="150"/>
@@ -27,9 +36,10 @@
                 <DataGridTextColumn x:Name="ArtistScoreColumn" Binding="{Binding Path=Type}" Header="Search Score"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="SongSearchButton" Content="Search Songs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="81" Margin="492,96,0,0" Height="30" Click="SongSearchButton_Click"/>
+        <Button x:Name="SongSearchButton" Content="Search Songs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,160,0,0" Height="30" Click="SongSearchButton_Click"
+                Style="{DynamicResource RoundedButton}"/>
 
-        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="288" Margin="80,300,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid x:Name="SongDataGrid" HorizontalAlignment="Left" Height="288" Margin="80,350,0,0" VerticalAlignment="Top" Width="385" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SongNameColumn" Binding="{Binding Path=Title}" Header="Song Title" Width="*" MinWidth="150"/>
                 <!-- <DataGridTextColumn x:Name="SongReleaseColumn" Binding="{Binding Path=FirstRelease}" Header="First Release"/>

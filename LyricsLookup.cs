@@ -10,7 +10,7 @@ namespace AverageLyrics
 {    
     public class LyricsLookup : Globals
     {
-        public static string TheseLyrics = "";
+        //public static string TheseLyrics = "";
         
         public static async Task GetLyrics(string artistName, string songName)
         {
@@ -21,13 +21,13 @@ namespace AverageLyrics
                 {
                     string _responseData = await _response.Content.ReadAsStringAsync();
                     string _lyrics = FormatLyrics(_responseData);
-                    TheseLyrics = _lyrics;
+                    //TheseLyrics = _lyrics;
                     int _countWords = _lyrics.Count(l => l == ' ') + 1;
-                    MessageBox.Show(_countWords.ToString());
-                    Clipboard.SetText(_lyrics);
+                    //MessageBox.Show(_countWords.ToString());
+                    //Clipboard.SetText(_lyrics);
+                    LyricCount.Add(songName, _countWords);
                 }
             }
-
         }
     }
 }

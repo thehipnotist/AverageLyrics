@@ -64,14 +64,34 @@ namespace AverageLyrics
                     SongDataGrid.ItemsSource = null;
                     await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist);
                     SongDataGrid.ItemsSource = Globals.MatchingSongs;
-                    //SongDataGrid.SelectAll();
+                    SongDataGrid.SelectAll();
+                    ShowAverage();
                 }
                 else
                 {
-                    MessageBox.Show("Please select an artist record in the table.");
+                    MessageBox.Show("Please select an artist record in the upper table.");
                 }
             }
             catch (Exception exp) { MessageBox.Show("Error searching for songs: " + exp.Message); }
+        }
+
+        private void ShowAverage()
+        {
+            if (SongDataGrid.SelectedItems == null)
+            {
+                MessageBox.Show("Please select at least one song in the lower table.");
+            }
+            else
+            {
+                Globals.SelectedSongs.Clear();
+                foreach (var selectedSong in SongDataGrid.SelectedItems)
+                {
+                    SongItem _thisSong = selectedSong as SongItem;
+                    if (_thisSong != null) { Globals.SelectedSongs.Add(_thisSong); }
+                }
+                double _average = Globals.LyricAverage();
+                MessageBox.Show("The average number of words in the selected songs is " + _average);
+            }
         }
 
     }

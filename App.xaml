@@ -11,8 +11,8 @@
         <RadialGradientBrush x:Key="PtGradientButton">
             <RadialGradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="Purple" Offset="0"/>
-                    <GradientStop Color="BlueViolet" Offset="1"/>
+                    <GradientStop Color="#FF3333FF" Offset="0"/>
+                    <GradientStop Color="#FF6666FF" Offset="1"/>
                 </GradientStopCollection>
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
@@ -114,7 +114,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="PaddedCombo" TargetType="{x:Type ComboBox}">
+        <Style x:Key="RoundedCombo" TargetType="{x:Type ComboBox}">
             <Setter Property="FocusVisualStyle">
                 <Setter.Value>
                     <Style>

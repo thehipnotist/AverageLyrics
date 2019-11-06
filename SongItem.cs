@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AverageLyrics
 {
-    public class RecordingItem
+    public class SongItem
     {  
         public string Id { get; set; }
         public string Title { get; set; }

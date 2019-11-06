@@ -53,60 +53,30 @@ namespace AverageLyrics
             {
                 MatchingSongs.Clear();
 
-                //var _foundWorks = await Artist.GetAsync(artist.Id, "works");
-                //foreach (var _work in _foundWorks)
-                //{
-
-                //}
-
-                //var _artist = await Artist.GetAsync(artist.Id, "artist-rels", "url-rels");
-
                 var _works = await Artist.GetAsync(artist.Id, "works");
-                
 
-                //var _lyrics = _artist.Relations.Where(r => r.TargetType == "url" && r.Type == "lyrics");
-                //MessageBox.Show(_lyrics.Count().ToString());
-
-                //var _work = _artist.Relations.Where(r => r.Type == "work");
-                
-                //MessageBox.Show(_works.Works.Count().ToString());
-
-
-                //var _workQuery = new QueryParameters<Work>() { { "arid", artist.Id } };
-                //var _foundWorks = await Work.GetAsync(_workQuery);
-
-                //var _works = _artist.Relations.Where(r => r.Type == "recordings");
-
-                int i = 0;
-
+                LyricCount.Clear();
                 foreach (var w in _works.Works)
                 {
-                    //MessageBox.Show(w.Title);
 
-                    //var _work = await Work.GetAsync(w.Id, "url-rels");
-                    //var _lyrics = _work.Relations.Where(r => r.Type == "lyrics");
+                    await LyricsLookup.GetLyrics(artist.Name, w.Title);
+                    var _lyricCount = 0;
+                    LyricCount.TryGetValue(w.Title, out _lyricCount);    
 
-                    i++;
-
-                    if (i == 1) { await LyricsLookup.GetLyrics(artist.Name, w.Title); MessageBox.Show(LyricsLookup.TheseLyrics); }
-
-                    var _song = new RecordingItem
+                    var _song = new SongItem
                     {
                         Id = w.Id,
-                        Title = w.Title
-                        //LyricCount = _lyrics.Count()
-                        //,
-                        //FirstRelease = _work.Releases.OrderByDescending(r => r.Score).Select(r => r.Title).FirstOrDefault(),
-                        //Seconds = _work.Length
-                        //Score = s.Score
+                        Title = w.Title,
+                        LyricCount = _lyricCount
                     };
                     Globals.MatchingSongs.Add(_song);
                 }
 
-                
-
-
-
+                //var _artist = await Artist.GetAsync(artist.Id, "artist-rels", "url-rels");
+                //var _lyrics = _artist.Relations.Where(r => r.TargetType == "url" && r.Type == "lyrics");
+                //var _work = _artist.Relations.Where(r => r.Type == "work");
+                //var _workQuery = new QueryParameters<Work>() { { "arid", artist.Id } };
+                //var _foundWorks = await Work.GetAsync(_workQuery);
                 //var _songQuery = new QueryParameters<Recording>() { { "arid", artist.Id } };
                 //var _foundSongs = await Recording.SearchAsync(_songQuery);
                 //if (_foundSongs != null && _foundSongs.Items != null && _foundSongs.Items.Count > 0)
