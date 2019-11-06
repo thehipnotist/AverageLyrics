@@ -27,15 +27,26 @@ namespace AverageLyrics
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ArtistName.Text = Globals.DefaultArtistText;
+            PopulateTypeCombo();
             ArtistName.Focus();
+        }
+
+        private void PopulateTypeCombo()
+        {
+            MusicBrainzLookup.SetArtistTypes();
+            TypeCombo.ItemsSource = Globals.ArtistTypes;
+            TypeCombo.SelectedValue = Globals.AllRecords;
         }
 
         private void ArtistName_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (ArtistName.Text == Globals.DefaultArtistText)
-            {
-                ArtistName.SelectAll();
-            }
+            if (ArtistName.Text == Globals.DefaultArtistText) { ArtistName.SelectAll(); }
+        }
+
+        private void TypeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TypeCombo.SelectedItem == null) { Globals.SelectedType = Globals.AllRecords; }
+            else { Globals.SelectedType = TypeCombo.SelectedItem as string; }
         }
 
         private async void ArtistSearchButton_Click(object sender, RoutedEventArgs e)
@@ -43,7 +54,7 @@ namespace AverageLyrics
             try
             {
                 ArtistDataGrid.ItemsSource = null;
-                await MusicBrainzLookup.LookupArtist(ArtistName.Text);                
+                await MusicBrainzLookup.LookupArtist(ArtistName.Text, Globals.SelectedType);                
                 ArtistDataGrid.ItemsSource = Globals.MatchingArtists;
                 if (Globals.MatchingArtists.Count > 0) { ArtistDataGrid.SelectedIndex = 0; }
             }

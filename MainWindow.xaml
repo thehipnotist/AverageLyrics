@@ -15,7 +15,8 @@
         <TextBox x:Name="ArtistName" HorizontalAlignment="Left" Height="30" Margin="105,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" GotFocus="ArtistName_GotFocus"
                  Style="{DynamicResource RoundedTextBox}"/>
         <Label x:Name="TypeLabel" Content="Artist Type" HorizontalAlignment="Left" Height="30" Margin="320,70,0,0" VerticalAlignment="Top" Width="70"/>
-        <ComboBox HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110" Style="{DynamicResource RoundedCombo}"/>
+        <ComboBox x:Name="TypeCombo" HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110" Style="{DynamicResource RoundedCombo}" SelectionChanged="TypeCombo_SelectionChanged"
+                  />
         <Button x:Name="ArtistSearchButton" Content="Search Artists" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,70,0,0" Height="30" Click="ArtistSearchButton_Click"
                 Style="{DynamicResource RoundedButton}"/>
 
