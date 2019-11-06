@@ -7,6 +7,7 @@ using Hqub.MusicBrainz.API.Entities;
 using Hqub.MusicBrainz.API.Entities.Collections;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Threading;
 
 namespace AverageLyrics
 {
@@ -69,29 +70,57 @@ namespace AverageLyrics
         public static async Task LookupSongs(ArtistItem artist)
         {
             try
-            {
+            {                
                 MatchingSongs.Clear();
-
-                var _works = await Artist.GetAsync(artist.Id, "works");                
-
                 LyricCount.Clear();
+
+                var _works = await Artist.GetAsync(artist.Id, "works");
                 foreach (var w in _works.Works)
                 {
-                    await LyricsLookup.GetLyrics(artist.Name, w.Title);
-                    var _lyricCount = 0;
-                    LyricCount.TryGetValue(w.Title, out _lyricCount);    
-
-                    var _song = new SongItem
-                    {
-                        Id = w.Id,
-                        Title = w.Title,
-                        Language = w.Language,
-                        LyricCount = _lyricCount                        
-                    };
-                    Globals.MatchingSongs.Add(_song);
+                    if (MatchingSongs != null && MatchingSongs.Exists(m => m.Title == w.Title)) { continue; }
+                    else { await addSong(artist.Name, w); }
                 }
+
+                var _recordingsQuery = new QueryParameters<Recording>()
+                {
+                    { "arid", artist.Id }
+                };
+                var _records = await Recording.SearchAsync(_recordingsQuery, 500);
+                var _recordings = _records.Items.ToList();
+
+                foreach (var rec in _recordings)
+                {
+                    Thread.Sleep(500); 
+                    var _recording = await Recording.GetAsync(rec.Id, "work-rels");
+                    var _recordingList = _recording.Relations.Where(r => r.Work != null).ToList();
+                    foreach (var v in _recordingList)
+                    {
+                        Thread.Sleep(500); 
+                        var w = v.Work;
+                        if (w == null || (MatchingSongs != null && MatchingSongs.Exists(m => m.Title == w.Title))) { continue; }
+                        else { await addSong(artist.Name, w); }
+                    }
+                }
+
+                Globals.MatchingSongs = Globals.MatchingSongs.OrderBy(ms => ms.Title).ToList();
             }
             catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message); }
+        }
+
+        private static async Task addSong(string artistName, Work w)
+        {
+            await LyricsLookup.GetLyrics(artistName, w.Title);
+            var _lyricCount = 0;
+            LyricCount.TryGetValue(w.Title, out _lyricCount);
+            
+            var _song = new SongItem
+            {
+                Id = w.Id,
+                Title = w.Title,
+                Language = w.Language,
+                LyricCount = _lyricCount
+            };
+            Globals.MatchingSongs.Add(_song);
         }
 
     }

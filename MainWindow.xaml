@@ -54,7 +54,8 @@
         <TextBlock x:Name="ThirdInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
                 The average number of words in the selected songs is
-                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/> .
+                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/>
+                .
                 <LineBreak/>
                 To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the 'quick select' options.
             </TextBlock.Inlines>
