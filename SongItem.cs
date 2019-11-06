@@ -10,15 +10,7 @@ namespace AverageLyrics
     {  
         public string Id { get; set; }
         public string Title { get; set; }
-        //public string FirstRelease  { get; set; }
-        //public int? Seconds { get; set; }
-        //public int Score { get; set; }
-        public int LyricCount { get; set; }
-
-    //    public TimeSpan TrackLength
-    //    {
-    //        get { return TimeSpan.FromSeconds((double)Seconds); }
-    //    }
-    
+        public string Language { get; set; }
+        public int LyricCount { get; set; }    
     }
 }

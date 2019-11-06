@@ -64,8 +64,7 @@
                    BorderBrush="{DynamicResource BrushButton2}" SelectionChanged="SongDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SongNameColumn" Binding="{Binding Path=Title}" Header="Song Title" Width="*" MinWidth="150"/>
-                <!-- <DataGridTextColumn x:Name="SongReleaseColumn" Binding="{Binding Path=FirstRelease}" Header="First Release"/>
-                <DataGridTextColumn x:Name="SongLengthColumn" Binding="{Binding Path=Seconds}" Header="Length"/>   -->
+                <DataGridTextColumn x:Name="SongLanguageColumn" Binding="{Binding Path=Language}" Header="Language"/>
                 <DataGridTextColumn x:Name="LyricsColumn" Binding="{Binding Path=LyricCount}" Header="Lyric Count"/>
             </DataGrid.Columns>
         </DataGrid>

@@ -85,7 +85,8 @@ namespace AverageLyrics
                     {
                         Id = w.Id,
                         Title = w.Title,
-                        LyricCount = _lyricCount
+                        Language = w.Language,
+                        LyricCount = _lyricCount                        
                     };
                     Globals.MatchingSongs.Add(_song);
                 }
