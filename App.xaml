@@ -80,7 +80,7 @@
 
         <Style x:Key="RoundedTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="#FFABADB3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BrushButton2}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="5"/>
@@ -182,7 +182,7 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                    <Border x:Name="templateRoot" BorderBrush="#FFACACAC" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True"
+                                                    <Border x:Name="templateRoot" BorderBrush="{StaticResource BrushButton2}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True"
                                                             CornerRadius="2">
                                                         <Border.Background>
                                                             <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">

@@ -11,10 +11,12 @@
             </TextBlock.Inlines>
         </TextBlock>
 
-        <Label x:Name="ArtistLabel" Content="Artist Name" HorizontalAlignment="Left" Height="30" Margin="30,70,0,0" VerticalAlignment="Top" Width="80"/>
-        <TextBox x:Name="ArtistName" HorizontalAlignment="Left" Height="30" Margin="105,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" GotFocus="ArtistName_GotFocus"
+        <Label x:Name="ArtistLabel" Content="Artist Name" HorizontalAlignment="Left" Height="30" Margin="30,70,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" 
+               Foreground="{DynamicResource BrushButton2}"/>
+        <TextBox x:Name="ArtistName" HorizontalAlignment="Left" Height="30" Margin="110,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" GotFocus="ArtistName_GotFocus"
                  Style="{DynamicResource RoundedTextBox}" CharacterCasing="Upper"/>
-        <Label x:Name="TypeLabel" Content="Artist Type" HorizontalAlignment="Left" Height="30" Margin="320,70,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label x:Name="TypeLabel" Content="Artist Type" HorizontalAlignment="Left" Height="30" Margin="315,70,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" 
+               Foreground="{DynamicResource BrushButton2}"/>
         <ComboBox x:Name="TypeCombo" HorizontalAlignment="Left" Height="30" Margin="390,70,0,0" VerticalAlignment="Top" Width="110" Style="{DynamicResource RoundedCombo}" SelectionChanged="TypeCombo_SelectionChanged"
                   />
         <Button x:Name="ArtistSearchButton" Content="Search Artists" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,70,0,0" Height="30" Click="ArtistSearchButton_Click"
@@ -40,6 +42,10 @@
         <Button x:Name="SongSearchButton" Content="Search Songs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="550,160,0,0" Height="30" Click="SongSearchButton_Click"
                 Style="{DynamicResource RoundedButton}"/>
 
+        <Label x:Name="AverageLabel" Content="Average Words:" HorizontalAlignment="Left" Height="30" Margin="540,275,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+        <Label x:Name="AverageWords" Content="" HorizontalAlignment="Left" Height="40" Margin="520,295,0,0" VerticalAlignment="Top" Width="120" FontWeight="Bold" 
+               Foreground="{DynamicResource BrushButton1}" HorizontalContentAlignment="Right" FontSize="20"/>
+
         <TextBlock x:Name="WaitInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow"
                    Foreground="{DynamicResource BrushButton2}">
                 Please wait whilst the results are retrieved, this may take a few minutes...
@@ -48,7 +54,7 @@
         <TextBlock x:Name="ThirdInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
                 The average number of words in the selected songs is
-                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/>.
+                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/> .
                 <LineBreak/>
                 To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the 'quick select' options.
             </TextBlock.Inlines>

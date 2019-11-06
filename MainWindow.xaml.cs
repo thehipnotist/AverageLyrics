@@ -48,7 +48,8 @@ namespace AverageLyrics
 
         private void toggleSongControls(bool show)
         {
-            SongDataGrid.Visibility = ThirdInstructions.Visibility = RecalculateButton.Visibility = SelectGroup.Visibility = show ? Visibility.Visible : Visibility.Hidden;            
+            SongDataGrid.Visibility = ThirdInstructions.Visibility = RecalculateButton.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+            SelectGroup.Visibility = AverageLabel.Visibility = AverageWords.Visibility = show ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void populateTypeCombo()
@@ -80,6 +81,7 @@ namespace AverageLyrics
             }
             else
             {
+                setInitialView();
                 findArtist();
             }
         }
@@ -156,7 +158,9 @@ namespace AverageLyrics
                     if (_thisSong != null) { Globals.SelectedSongs.Add(_thisSong); }
                 }
                 double _average = Globals.LyricAverage();
-                AverageResultBlock.Text = String.Format("{0:0.##}", _average);
+                string _aveText = String.Format("{0:0.##}", _average);
+                AverageResultBlock.Text = _aveText;
+                AverageWords.Content = _aveText;
             }
         }
 
