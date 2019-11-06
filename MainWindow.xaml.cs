@@ -61,9 +61,9 @@ namespace AverageLyrics
             {
                 if (Globals.SelectedArtist != null)
                 {
-                    //SongDataGrid.ItemsSource = null;
+                    SongDataGrid.ItemsSource = null;
                     await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist);
-                    //SongDataGrid.ItemsSource = Globals.MatchingSongs;
+                    SongDataGrid.ItemsSource = Globals.MatchingSongs;
                     //SongDataGrid.SelectAll();
                 }
                 else

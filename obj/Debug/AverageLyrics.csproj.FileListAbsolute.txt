@@ -28,3 +28,4 @@ C:\Users\Mark\Dropbox\Coding Examples\AverageLyrics\AverageLyrics\obj\Debug\Aver
 C:\Users\Mark\Dropbox\Coding Examples\AverageLyrics\AverageLyrics\obj\Debug\AverageLyrics.g.resources
 C:\Users\Mark\Dropbox\Coding Examples\AverageLyrics\AverageLyrics\obj\Debug\AverageLyrics.Properties.Resources.resources
 C:\Users\Mark\Dropbox\Coding Examples\AverageLyrics\AverageLyrics\obj\Debug\AverageLyrics.csproj.GenerateResource.Cache
+C:\Users\Mark\Dropbox\Coding Examples\AverageLyrics\AverageLyrics\obj\Debug\App.baml

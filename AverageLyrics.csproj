@@ -40,6 +40,8 @@
     <Reference Include="Hqub.MusicBrainz.API">
       <HintPath>..\packages\MusicBrainzAPI.2.0.1\lib\net45\Hqub.MusicBrainz.API.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="presentationframework.aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
