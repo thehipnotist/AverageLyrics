@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace AverageLyrics
 {
-    class MusicBrainzLookup : Globals
+    public class MusicBrainzLookup : Globals
     {
         public static async Task LookupArtist(string enteredName)
         {
@@ -36,7 +36,6 @@ namespace AverageLyrics
                             Country = a.Country,
                             Type = a.Type
                         };
-
                         MatchingArtists.Add(_artist);
                     }
                 }
@@ -70,7 +69,7 @@ namespace AverageLyrics
 
                 //var _work = _artist.Relations.Where(r => r.Type == "work");
                 
-                //MessageBox.Show(_work.Count().ToString());
+                //MessageBox.Show(_works.Works.Count().ToString());
 
 
                 //var _workQuery = new QueryParameters<Work>() { { "arid", artist.Id } };
@@ -78,9 +77,19 @@ namespace AverageLyrics
 
                 //var _works = _artist.Relations.Where(r => r.Type == "recordings");
 
+                int i = 0;
+
                 foreach (var w in _works.Works)
                 {
                     //MessageBox.Show(w.Title);
+
+                    //var _work = await Work.GetAsync(w.Id, "url-rels");
+                    //var _lyrics = _work.Relations.Where(r => r.Type == "lyrics");
+
+                    i++;
+
+                    if (i == 1) { await LyricsLookup.GetLyrics(artist.Name, w.Title); MessageBox.Show(LyricsLookup.TheseLyrics); }
+
                     var _song = new RecordingItem
                     {
                         Id = w.Id,
