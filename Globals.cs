@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace AverageLyrics
 {
     public class Globals
     {
+        public const int MaximumRecords = 250;
         public const string DefaultArtistText = "Enter Artist Name";
         public const string AllRecords = "<All>";
         public static string SelectedType = AllRecords;
         public static string SingleSpace = " ";
         public static string DoubleSpace = "  ";
+        public static int SleepTime = 500;
 
         public static List<ArtistItem> MatchingArtists = new List<ArtistItem>();
         public static ArtistItem SelectedArtist = null;

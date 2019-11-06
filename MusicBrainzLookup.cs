@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Hqub.MusicBrainz.API;
 using Hqub.MusicBrainz.API.Entities;
-using Hqub.MusicBrainz.API.Entities.Collections;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Threading;
@@ -13,11 +10,14 @@ namespace AverageLyrics
 {
     public class MusicBrainzLookup : Globals
     {
+        private static QueryParameters<Recording> recordingsQuery = null;
+        private const int recordCount = 25;
+        
         public static void SetArtistTypes()
         {
             try
             {
-                // Couldn't find a way to get this list from the API
+                // These are hard coded as the API does not appear to offer them for query
                 ArtistTypes.Add(AllRecords);
                 ArtistTypes.Add("Person");
                 ArtistTypes.Add("Group");
@@ -59,10 +59,7 @@ namespace AverageLyrics
                         MatchingArtists.Add(_artist);
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Could not find an artist called '" + enteredName + "'.");
-                }
+                else { MessageBox.Show("Could not find an artist called '" + enteredName + "'."); }
             }
             catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ": " + exp.Message); }
         }
@@ -74,6 +71,7 @@ namespace AverageLyrics
                 MatchingSongs.Clear();
                 LyricCount.Clear();
 
+                // Get works direct from the artist where possible - this only returns 25 results, with no override
                 var _works = await Artist.GetAsync(artist.Id, "works");
                 foreach (var w in _works.Works)
                 {
@@ -81,30 +79,41 @@ namespace AverageLyrics
                     else { await addSong(artist.Name, w); }
                 }
 
-                var _recordingsQuery = new QueryParameters<Recording>()
+                // For any more records, we need to search by recording, which also limits to 25 but allows an offset, so we can loop around a number of times
+                recordingsQuery = new QueryParameters<Recording>()
                 {
                     { "arid", artist.Id }
                 };
-                var _records = await Recording.SearchAsync(_recordingsQuery, 500);
-                var _recordings = _records.Items.ToList();
+                int maxIterations = MaximumRecords/recordCount;
 
-                foreach (var rec in _recordings)
+                for (int i = 0; i < maxIterations; i++)
                 {
-                    Thread.Sleep(500); 
-                    var _recording = await Recording.GetAsync(rec.Id, "work-rels");
-                    var _recordingList = _recording.Relations.Where(r => r.Work != null).ToList();
-                    foreach (var v in _recordingList)
-                    {
-                        Thread.Sleep(500); 
-                        var w = v.Work;
-                        if (w == null || (MatchingSongs != null && MatchingSongs.Exists(m => m.Title == w.Title))) { continue; }
-                        else { await addSong(artist.Name, w); }
-                    }
+                    await findNextRecordBatch(artist, recordCount, recordCount * i);
                 }
 
                 Globals.MatchingSongs = Globals.MatchingSongs.OrderBy(ms => ms.Title).ToList();
             }
             catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message); }
+        }
+
+        private static async Task findNextRecordBatch(ArtistItem artist, int quantity, int offset)
+        {
+            var _records = await Recording.SearchAsync(recordingsQuery, quantity, offset);
+            var _recordings = _records.Items.ToList();
+
+            foreach (var rec in _recordings)
+            {
+                Thread.Sleep(SleepTime);
+                var _recording = await Recording.GetAsync(rec.Id, "work-rels");
+                var _recordingList = _recording.Relations.Where(r => r.Work != null).ToList();
+                foreach (var v in _recordingList)
+                {
+                    Thread.Sleep(SleepTime);
+                    var w = v.Work;
+                    if (w == null || (MatchingSongs != null && MatchingSongs.Exists(m => m.Title == w.Title))) { continue; }
+                    else { await addSong(artist.Name, w); }
+                }
+            }
         }
 
         private static async Task addSong(string artistName, Work w)
