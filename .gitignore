@@ -9,11 +9,10 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
 x64/
 build/
 bld/
-[Bb]in/
+[Bb]in/[Dd]ebug/
 [Oo]bj/
 
 # Roslyn cache directories
@@ -39,7 +38,6 @@ dlldata.c
 *.meta
 *.obj
 *.pch
-*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -188,6 +186,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-*.exe
-*.pdb
 obj/Debug/MainWindow.baml
