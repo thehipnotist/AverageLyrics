@@ -11,7 +11,7 @@ namespace AverageLyrics
         public static string SelectedType = AllRecords;
         public static string SingleSpace = " ";
         public static string DoubleSpace = "  ";
-        public static int SleepTime = 500;
+        public static int SleepTime = 200;
 
         public static List<ArtistItem> MatchingArtists = new List<ArtistItem>();
         public static ArtistItem SelectedArtist = null;

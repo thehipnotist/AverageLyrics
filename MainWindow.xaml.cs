@@ -22,25 +22,30 @@ namespace AverageLyrics
             ArtistName.Text = Globals.DefaultArtistText;
             populateTypeCombo();
             setInitialView();
+            int _initialSleep = (Globals.SleepTime / 10);
+            DelaySlider.Value = _initialSleep;
             ArtistName.Focus();
         }
 
         private void setInitialView()
         {
-            toggleArtistControls(false);
-            toggleSongControls(false);
+            toggleSongSearchControls(false);
+            toggleSongChoiceControls(false);
             WaitInstructions.Visibility = Visibility.Hidden;
         }
         
-        private void toggleArtistControls(bool show)
+        private void toggleSongSearchControls(bool show)
         {
-            SecondInstructions.Visibility = ArtistDataGrid.Visibility = SongSearchButton.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+            Visibility _newVisibility = show ? Visibility.Visible : Visibility.Hidden;
+            SecondInstructions.Visibility = ArtistDataGrid.Visibility = SongSearchButton.Visibility = _newVisibility;
+            FourthInstructions.Visibility = DelayLabel.Visibility = DelaySlider.Visibility = _newVisibility;
         }
 
-        private void toggleSongControls(bool show)
+        private void toggleSongChoiceControls(bool show)
         {
-            SongDataGrid.Visibility = ThirdInstructions.Visibility = RecalculateButton.Visibility = show ? Visibility.Visible : Visibility.Hidden;
-            SelectGroup.Visibility = AverageLabel.Visibility = AverageWords.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+            Visibility _newVisibility = show ? Visibility.Visible : Visibility.Hidden;
+            SongDataGrid.Visibility = ThirdInstructions.Visibility = RecalculateButton.Visibility = _newVisibility;
+            SelectGroup.Visibility = AverageLabel.Visibility = AverageWords.Visibility = _newVisibility;            
         }
 
         private void populateTypeCombo()
@@ -87,7 +92,7 @@ namespace AverageLyrics
                 {
                     ArtistDataGrid.ItemsSource = Globals.MatchingArtists;
                     if (Globals.MatchingArtists.Count > 0) { ArtistDataGrid.SelectedIndex = 0; }
-                    toggleArtistControls(true);
+                    toggleSongSearchControls(true);
                 }
             }
             catch (Exception exp) { MessageBox.Show("Error searching for artists: " + exp.Message); }
@@ -113,7 +118,7 @@ namespace AverageLyrics
                     SongDataGrid.ItemsSource = null;
                     await MusicBrainzLookup.LookupSongs(Globals.SelectedArtist);
                     SongDataGrid.ItemsSource = Globals.MatchingSongs;
-                    toggleSongControls(true);
+                    toggleSongChoiceControls(true);
                     SelectAll.IsChecked = true;
                     showAverage();
                     toggleWait(false);
@@ -129,9 +134,9 @@ namespace AverageLyrics
 
         private void toggleWait(bool start)
         {
-            SongSearchButton.IsEnabled = ArtistSearchButton.IsEnabled = !start;
+            SongSearchButton.IsEnabled = ArtistSearchButton.IsEnabled = DelaySlider.IsEnabled = !start;
             WaitInstructions.Visibility = start ? Visibility.Visible : Visibility.Hidden;
-            toggleSongControls(!start);
+            toggleSongChoiceControls(!start);
         }
 
         private void showAverage()
@@ -169,7 +174,14 @@ namespace AverageLyrics
         private void SelectAll_Checked(object sender, RoutedEventArgs e)
         {
             toggleRadioSelection(false);
-            SongDataGrid.SelectAll();
+            foreach (var dataLine in SongDataGrid.Items)
+            {
+                SongItem _thisSong = dataLine as SongItem;
+                if (_thisSong != null && _thisSong.LyricCount >= 0)
+                {
+                    SongDataGrid.SelectedItems.Add(dataLine);
+                }
+            }
             toggleRadioSelection(true);
         }
 
@@ -202,6 +214,12 @@ namespace AverageLyrics
                 SelectAll.IsChecked = SelectNone.IsChecked = SelectPositive.IsChecked = false;
                 radioSelected = false;
             }
+        }
+
+        private void DelaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Globals.SleepTime = (int)DelaySlider.Value * 10;
+            DelaySlider.ToolTip = Globals.SleepTime.ToString();
         }
 
     }

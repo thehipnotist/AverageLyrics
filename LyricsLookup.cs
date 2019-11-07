@@ -17,10 +17,15 @@ namespace AverageLyrics
             {
                 using (var _response = await httpClient.GetAsync(artistName + "/" + songName))
                 {
+                    int _countWords = 0;
                     string _responseData = await _response.Content.ReadAsStringAsync();
-                    string _lyrics = FormatLyrics(_responseData);
-                    int _countWords = (_lyrics == "")? 0 : _lyrics.Count(l => l == ' ') + 1;
-                    //if (_countWords == 1) { Clipboard.SetText(_lyrics); }
+                    if (_responseData.ToLower().Trim().StartsWith("{\"error\":")) { _countWords = -1; }
+                    else
+                    {
+                        string _lyrics = FormatLyrics(_responseData);
+                        _countWords = (_lyrics == "")? 0 : _lyrics.Count(l => l == ' ') + 1;
+                        //if (_countWords <10) { Clipboard.SetText(_responseData); }
+                    }
                     LyricCount.Add(songName, _countWords);
                 }
             }

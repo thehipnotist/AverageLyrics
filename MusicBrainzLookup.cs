@@ -80,20 +80,18 @@ namespace AverageLyrics
                 }
 
                 // For any more records, we need to search by recording, which also limits to 25 but allows an offset, so we can loop around a number of times
-                recordingsQuery = new QueryParameters<Recording>()
+                if (_works.Works.Count() >= recordCount)
                 {
-                    { "arid", artist.Id }
-                };
-                int maxIterations = MaximumRecords/recordCount;
-
-                for (int i = 0; i < maxIterations; i++)
-                {
-                    await findNextRecordBatch(artist, recordCount, recordCount * i);
+                    recordingsQuery = new QueryParameters<Recording>() { { "arid", artist.Id } };
+                    int maxIterations = MaximumRecords / recordCount;
+                    for (int i = 0; i < maxIterations; i++)
+                    {
+                        await findNextRecordBatch(artist, recordCount, recordCount * i);
+                    }
                 }
-
-                Globals.MatchingSongs = Globals.MatchingSongs.OrderBy(ms => ms.Title).ToList();
             }
             catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message); }
+            finally { Globals.MatchingSongs = Globals.MatchingSongs.OrderBy(ms => ms.Title).ToList(); }
         }
 
         private static async Task findNextRecordBatch(ArtistItem artist, int quantity, int offset)
