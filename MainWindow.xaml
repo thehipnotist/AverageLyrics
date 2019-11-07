@@ -1,11 +1,12 @@
 ﻿<Window x:Class="AverageLyrics.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Average Lyrics" Height="755" Width="700" Loaded="Window_Loaded">
+        Title="Average Lyrics" Height="750" Width="700" Loaded="Window_Loaded">
     <Grid>
         <TextBlock x:Name="FirstInstructions" Height="45" Margin="30,20,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
-                This tool gives the average number of words in an artist's songs.
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource BrushButton1}">Welcome to Average Lyrics!</TextBlock>
+                This application finds the average number of words in an artist's songs.
                 <LineBreak/>
                 To get started, enter an artist's name in the box, and if desired select a type to filter on. Then click 'Search Artists'.
             </TextBlock.Inlines>
@@ -53,11 +54,10 @@
 
         <TextBlock x:Name="ThirdInstructions" Height="45" Margin="30,350,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="640" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
-                The average number of words in the selected songs is
-                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/>
-                .
+                The average number of words in selected songs is
+                <TextBlock x:Name="AverageResultBlock" FontWeight="Bold" Foreground="{DynamicResource BrushButton1}"/>. By default, only songs whose lyrics are listed are selected.
                 <LineBreak/>
-                To omit certain songs in the list below, use Control+Click to deselect them. Alternatively use the 'quick select' options.
+                To change the selection, Control+Click in the table below to add/remove records or use the 'quick select' options.
             </TextBlock.Inlines>
         </TextBlock>
 
@@ -83,19 +83,19 @@
         <GroupBox x:Name="SelectGroup" Header="Quick Select" HorizontalAlignment="Left" Height="100" Margin="550,450,0,0" VerticalAlignment="Top" Width="90" BorderBrush="{DynamicResource BrushButton2}"
                    Foreground="{DynamicResource BrushButton2}" HorizontalContentAlignment="Right" Padding="3,5,0,0">
             <StackPanel Margin="0,5,0,0">
-                <RadioButton x:Name="SelectAll" Content="All" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectAll_Checked"/>
+                <RadioButton x:Name="SelectAll" Content="All Found" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectAll_Checked"/>
                 <RadioButton x:Name="SelectPositive" Content="Non-Zero" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectPositive_Checked"/>
                 <RadioButton x:Name="SelectNone" Content="None" Margin="0,5,0,0" HorizontalAlignment="Left" Checked="SelectNone_Checked"/>
             </StackPanel>
         </GroupBox>
 
-        <TextBlock x:Name="FourthInstructions" Height="45" Margin="30,660,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="470" Padding="5" TextWrapping="WrapWithOverflow">
+        <TextBlock x:Name="FourthInstructions" Height="45" Margin="30,655,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="470" Padding="5" TextWrapping="WrapWithOverflow">
             <TextBlock.Inlines>
                 If the song search returns an error when saying the allowable rate limit has been exceeded, not all records are returned. Use this slider to add delay between requests.
             </TextBlock.Inlines>
         </TextBlock>
-        <Label x:Name="DelayLabel" Content="Delay Time (ms):" HorizontalAlignment="Left" Height="30" Margin="540,660,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
-        <Slider x:Name="DelaySlider" HorizontalAlignment="Left" Height="25" Margin="520,680,0,0" VerticalAlignment="Top" Width="150" Maximum="100" TickPlacement="BottomRight" 
+        <Label x:Name="DelayLabel" Content="Delay Time (ms):" HorizontalAlignment="Left" Height="30" Margin="540,655,0,0" VerticalAlignment="Top" Width="100" HorizontalContentAlignment="Right"/>
+        <Slider x:Name="DelaySlider" HorizontalAlignment="Left" Height="25" Margin="520,675,0,0" VerticalAlignment="Top" Width="150" Maximum="100" TickPlacement="BottomRight" 
                 TickFrequency="10" ValueChanged="DelaySlider_ValueChanged" Style="{DynamicResource RoundedSlider}"/>
 
     </Grid>

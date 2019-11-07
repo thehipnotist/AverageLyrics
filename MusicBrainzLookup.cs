@@ -26,7 +26,7 @@ namespace AverageLyrics
                 ArtistTypes.Add("Character");
                 ArtistTypes.Add("Other");
             }
-            catch (Exception exp) { MessageBox.Show("Error listing artist types: " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error listing artist types: " + exp.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
         }        
         
         public static async Task LookupArtist(string enteredName, string artistType)
@@ -59,9 +59,10 @@ namespace AverageLyrics
                         MatchingArtists.Add(_artist);
                     }
                 }
-                else { MessageBox.Show("Could not find an artist called '" + enteredName + "'."); }
+                else { MessageBox.Show("Could not find an artist called '" + enteredName + "'. Please check the spelling and try again.", "No match found", MessageBoxButton.OK, 
+                    MessageBoxImage.Stop); }
             }
-            catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ": " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error finding artist " + enteredName + ": " + exp.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         public static async Task LookupSongs(ArtistItem artist)
@@ -90,7 +91,7 @@ namespace AverageLyrics
                     }
                 }
             }
-            catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error finding songs for artist " + artist.Name + ": " + exp.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
             finally { Globals.MatchingSongs = Globals.MatchingSongs.OrderBy(ms => ms.Title).ToList(); }
         }
 

@@ -43,7 +43,7 @@ namespace AverageLyrics
         public static double LyricAverage()
         {
             if (SelectedSongs == null || SelectedSongs.Count == 0) { return 0; }
-            else { return SelectedSongs.Average(ss => ss.LyricCount); }
+            else { return SelectedSongs.Average(ss => ss.CountValue); }
         }
 
     }

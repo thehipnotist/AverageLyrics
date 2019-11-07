@@ -71,7 +71,7 @@ namespace AverageLyrics
 
             if (ArtistName.Text == "" || ArtistName.Text == Globals.DefaultArtistText)
             {
-                MessageBox.Show("Please enter an artist's name in the search box.");
+                MessageBox.Show("Please enter an artist's name in the search box.", "No name entered", MessageBoxButton.OK, MessageBoxImage.Stop);
                 ArtistName.Focus();
                 return;
             }
@@ -95,7 +95,7 @@ namespace AverageLyrics
                     toggleSongSearchControls(true);
                 }
             }
-            catch (Exception exp) { MessageBox.Show("Error searching for artists: " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error searching for artists: " + exp.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void ArtistDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -125,11 +125,11 @@ namespace AverageLyrics
                 }
                 else
                 {
-                    MessageBox.Show("Please select an artist record in the upper table.");
+                    MessageBox.Show("Please select an artist record in the upper table.", "No artist selected", MessageBoxButton.OK, MessageBoxImage.Stop);
                     ArtistDataGrid.Focus();
                 }
             }
-            catch (Exception exp) { MessageBox.Show("Error searching for songs: " + exp.Message); }
+            catch (Exception exp) { MessageBox.Show("Error searching for songs: " + exp.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
         }      
 
         private void toggleWait(bool start)
@@ -143,7 +143,7 @@ namespace AverageLyrics
         {
             if (SongDataGrid.SelectedItems == null)
             {
-                MessageBox.Show("Please select at least one song in the lower table.");
+                MessageBox.Show("Please select at least one song in the lower table.", "No songs selected", MessageBoxButton.OK, MessageBoxImage.Stop);
             }
             else
             {
@@ -157,6 +157,7 @@ namespace AverageLyrics
                 string _aveText = String.Format("{0:0.##}", _average);
                 AverageResultBlock.Text = _aveText;
                 AverageWords.Content = _aveText;
+                SongDataGrid.Focus();
             }
         }
 
@@ -174,6 +175,7 @@ namespace AverageLyrics
         private void SelectAll_Checked(object sender, RoutedEventArgs e)
         {
             toggleRadioSelection(false);
+            SongDataGrid.SelectedItem = null;
             foreach (var dataLine in SongDataGrid.Items)
             {
                 SongItem _thisSong = dataLine as SongItem;

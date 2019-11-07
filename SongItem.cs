@@ -12,7 +12,11 @@ namespace AverageLyrics
         public string Title { get; set; }
         public string Language { get; set; }
         public int LyricCount { get; set; }
-    
+
+        public int CountValue
+        {
+            get { return (LyricCount >= 0) ? LyricCount : 0; }
+        }
         public string CountResult
         {
             get { return (LyricCount >= 0) ? LyricCount.ToString() : "Not found"; }
